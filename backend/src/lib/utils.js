@@ -20,3 +20,6 @@ export const generateToken = (userId, res) => {
 
   return token;
 };
+
+// http://localhost
+// https://dsmakmk.com

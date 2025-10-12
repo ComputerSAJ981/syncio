@@ -1,6 +1,4 @@
-import React from 'react'
-
-const MessagesLoadingSkeleton = () => {
+function MessagesLoadingSkeleton() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {[...Array(6)].map((_, index) => (
@@ -12,7 +10,6 @@ const MessagesLoadingSkeleton = () => {
         </div>
       ))}
     </div>
-  )
+  );
 }
-
-export default MessagesLoadingSkeleton
+export default MessagesLoadingSkeleton;

@@ -3,21 +3,28 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
 import NoChatHistoryPlaceholder from "./NoChatHistoryPlaceholder";
-import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
 import MessageInput from "./MessageInput";
-const ChatContainer = () => {
+import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
+
+function ChatContainer() {
   const {
     selectedUser,
     getMessagesByUserId,
     messages,
     isMessagesLoading,
+    subscribeToMessages,
+    unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
   useEffect(() => {
     getMessagesByUserId(selectedUser._id);
-  }, [selectedUser, getMessagesByUserId]);
+    subscribeToMessages();
+
+    // clean up
+    return () => unsubscribeFromMessages();
+  }, [selectedUser, getMessagesByUserId, subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {
     if (messageEndRef.current) {
@@ -25,9 +32,8 @@ const ChatContainer = () => {
     }
   }, [messages]);
 
-  
   return (
-    <div>
+    <>
       <ChatHeader />
       <div className="flex-1 px-6 overflow-y-auto py-8">
         {messages.length > 0 && !isMessagesLoading ? (
@@ -68,8 +74,8 @@ const ChatContainer = () => {
       </div>
 
       <MessageInput />
-    </div>
-  )
+    </>
+  );
 }
 
-export default ChatContainer
+export default ChatContainer;

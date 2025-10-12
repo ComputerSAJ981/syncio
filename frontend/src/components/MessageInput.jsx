@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react'
-import { useChatStore } from '../store/useChatStore';
-import { ImageIcon, SendIcon, XIcon } from 'lucide-react';
-import useKeyboardSound from '../hooks/usekeyboardSound';
+import { useRef, useState } from "react";
+import useKeyboardSound from "../hooks/useKeyboardSound";
+import { useChatStore } from "../store/useChatStore";
+import toast from "react-hot-toast";
+import { ImageIcon, SendIcon, XIcon } from "lucide-react";
 
-const MessageInput = () => {
-
+function MessageInput() {
   const { playRandomKeyStrokeSound } = useKeyboardSound();
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
@@ -27,7 +27,7 @@ const MessageInput = () => {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
- const handleImageChange = (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file.type.startsWith("image/")) {
       toast.error("Please select an image file");
@@ -43,6 +43,7 @@ const MessageInput = () => {
     setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
+
   return (
     <div className="p-4 border-t border-slate-700/50">
       {imagePreview && (
@@ -102,7 +103,6 @@ const MessageInput = () => {
         </button>
       </form>
     </div>
-  )
+  );
 }
-
-export default MessageInput
+export default MessageInput;

@@ -1,17 +1,15 @@
-import mongoose from 'mongoose';
-import { ENV } from './env.js';
+import mongoose from "mongoose";
+import { ENV } from "./env.js";
 
-const connectDB = async () => {
-    try {
-        const {MONGO_URL}= ENV;
-        if(!MONGO_URL){
-            throw new Error("MONGO_URL is not set");
-        }
-        const conn = await mongoose.connect(ENV.MONGO_URL);
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-        console.error("Error in connecting to MongoDB:", error);
-        process.exit(1);
-    }
-}
-export default connectDB;
+export const connectDB = async () => {
+  try {
+    const { MONGO_URL } = ENV;
+    if (!MONGO_URL) throw new Error("MONGO_URI is not set");
+
+    const conn = await mongoose.connect(ENV.MONGO_URL);
+    console.log("MONGODB CONNECTED:", conn.connection.host);
+  } catch (error) {
+    console.error("Error connection to MONGODB:", error);
+    process.exit(1); // 1 status code means fail, 0 means success
+  }
+};

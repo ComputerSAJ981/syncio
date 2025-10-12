@@ -1,8 +1,8 @@
-import React from 'react'
-import { useChatStore } from '../store/useChatStore';
+import { useChatStore } from "../store/useChatStore";
 
-const ActiveTabSwitch = () => {
-     const { activeTab, setActiveTab } = useChatStore();
+function ActiveTabSwitch() {
+  const { activeTab, setActiveTab } = useChatStore();
+
   return (
     <div className="tabs tabs-boxed bg-transparent p-2 m-2">
       <button
@@ -23,7 +23,6 @@ const ActiveTabSwitch = () => {
         Contacts
       </button>
     </div>
-  )
+  );
 }
-
-export default ActiveTabSwitch
+export default ActiveTabSwitch;

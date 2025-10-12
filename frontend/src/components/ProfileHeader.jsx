@@ -1,13 +1,12 @@
-import React from "react";
 import { useState, useRef } from "react";
 import { LogOutIcon, VolumeOffIcon, Volume2Icon } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
-const mouseClickSound = new Audio("/sounds/mouse-click.mp3")
 
+const mouseClickSound = new Audio("/sounds/mouse-click.mp3");
 
-const ProfileHeader = () => {
-   const { logout, authUser, updateProfile } = useAuthStore();
+function ProfileHeader() {
+  const { logout, authUser, updateProfile } = useAuthStore();
   const { isSoundEnabled, toggleSound } = useChatStore();
   const [selectedImg, setSelectedImg] = useState(null);
 
@@ -25,7 +24,7 @@ const ProfileHeader = () => {
       setSelectedImg(base64Image);
       await updateProfile({ profilePic: base64Image });
     };
-};
+  };
 
   return (
     <div className="p-6 border-b border-slate-700/50">
@@ -97,5 +96,4 @@ const ProfileHeader = () => {
     </div>
   );
 }
-
 export default ProfileHeader;
