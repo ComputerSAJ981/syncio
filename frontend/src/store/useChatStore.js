@@ -1,21 +1,25 @@
 import { create } from "zustand";
+import { axiosInstance } from "../lib/axios";
+import toast from "react-hot-toast";
+import { useAuthStore } from "./useAuthStore";
 
-export const useChatStore = create((set) => ({
+export const useChatStore = create((set, get) => ({
   allContacts: [],
   chats: [],
   messages: [],
   activeTab: "chats",
   selectedUser: null,
-  isUserLoading: false,
+  isUsersLoading: false,
   isMessagesLoading: false,
-  isSoundEnabled: localStorage.getItem("isSoundEnabled") === "true",
+  isSoundEnabled: JSON.parse(localStorage.getItem("isSoundEnabled")) === true,
 
   toggleSound: () => {
     localStorage.setItem("isSoundEnabled", !get().isSoundEnabled);
     set({ isSoundEnabled: !get().isSoundEnabled });
   },
 
-  setActiveTab: (selectedUser) => ({ selectedUser }),
+  setActiveTab: (tab) => set({ activeTab: tab }),
+  setSelectedUser: (selectedUser) => set({ selectedUser }),
 
   getAllContacts: async () => {
     set({ isUsersLoading: true });
@@ -28,7 +32,6 @@ export const useChatStore = create((set) => ({
       set({ isUsersLoading: false });
     }
   },
-
   getMyChatPartners: async () => {
     set({ isUsersLoading: true });
     try {
@@ -38,6 +41,18 @@ export const useChatStore = create((set) => ({
       toast.error(error.response.data.message);
     } finally {
       set({ isUsersLoading: false });
+    }
+  },
+
+  getMessagesByUserId: async (userId) => {
+    set({ isMessagesLoading: true });
+    try {
+      const res = await axiosInstance.get(`/messages/${userId}`);
+      set({ messages: res.data });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      set({ isMessagesLoading: false });
     }
   },
 }));
